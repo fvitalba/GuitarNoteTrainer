@@ -59,17 +59,17 @@ def convert_note_to_number(note):
 def convert_number_to_note(int_note):
     return {
         0 : "A",
-        1 : "A# / Bm",
+        1 : "A# / Bb",
         2 : "B",
         3 : "C",
-        4 : "C# / Dm",
+        4 : "C# / Db",
         5 : "D",
-        6 : "D# / Em",
+        6 : "D# / Eb",
         7 : "E",
         8 : "F",
-        9 : "F# / Gm",
+        9 : "F# / Gb",
         10: "G",
-        11: "G# / Am",
+        11: "G# / Ab",
     }.get(int_note, "Invalid Note")
 
 # Get the Guitar String Name from an integer
