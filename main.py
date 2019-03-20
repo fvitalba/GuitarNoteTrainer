@@ -1,4 +1,5 @@
 from random import randint
+import os
 
 # this function converts the Note to a Number, increments it and returns the correct note
 def get_correct_guitar_note(starting_note, increment):
@@ -128,16 +129,18 @@ def draw_fretboard(string_no, fret_no):
     # print the help bullets of the guitar, the 12th fret bullet has to be printed as an m
     print("        o   o   o   o   m ")
 
-print("Welcome to the Python Guitar Note Trainer.")
-print("")
-print("")
-
 trainer_active = True
 while (trainer_active):
+    print("Welcome to the Python Guitar Note Trainer.")
+    print("")
+    print("")
+    
     # Define a random position on the guitar neck
     guitar_string = randint(1,6)
     guitar_fret = randint(0,12)
-    #print("Please try to convert the following constellation: Guitar String: {}, Guitar Fret: {}".format(guitar_string, guitar_fret))
+
+    if (guitar_fret == 0):
+        print("Please try to convert the following constellation: Guitar String: {}, Guitar Fret: {}".format(guitar_string, guitar_fret))
     draw_fretboard(guitar_string,guitar_fret)
     print("")
     user_guess = input("What do you think this Note is: ")
@@ -161,3 +164,6 @@ while (trainer_active):
             print("Correct!")
         else:
             print("Wrong! The correct answer was: {}".format(correct_guess))
+
+        input() #Avoid clearing screen immediately
+        os.system("cls")
