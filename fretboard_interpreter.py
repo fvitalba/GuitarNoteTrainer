@@ -20,17 +20,12 @@ import guitar_constant
 # This function converts the Note to a Number, increments it and returns the correct note
 def get_correct_guitar_note(starting_note, increment):
     int_note = convert_note_to_number(starting_note)
-    # DEBUG:
-    #print("note: {} --> Number {}".format(starting_note,int_note))
+    
     act_increment = increment % 12
-    # DEBUG:
-    #print("act_increment: {}".format(act_increment))
     int_note += act_increment
     int_note = int_note % 12
 
     ending_note = convert_number_to_note(int_note)
-    # DEBUG:
-    #print("int_note: {} --> note: {}".format(int_note,ending_note))
 
     return ending_note;
 
@@ -88,9 +83,13 @@ def get_guitar_note_from_int(string_no):
     }.get(string_no, "Invalid String No.")
 
 # Dynamically draw a fretboard, filling in the needed characters based on the position_array (boolean) and the hidden (boolean) property
-def draw_fretboard(position_array, hidden):
+def draw_fretboard(position_array, hidden, show_string_name):
     for si in range(guitar_constant.GUITAR_STRINGS):
-        guitar_string = get_guitar_note_from_int(si + 1).ljust(4, " ") + guitar_constant.FRETBOARD_SEPERATOR
+        if show_string_name:
+            guitar_string = get_guitar_note_from_int(si + 1).ljust(4, " ")
+        else:
+            guitar_string = "".ljust(4, " ")
+        guitar_string += guitar_constant.FRETBOARD_SEPERATOR
         for fi in range(1, guitar_constant.GUITAR_FRETS + 1):
             if position_array[si][fi]:
                 if hidden:
