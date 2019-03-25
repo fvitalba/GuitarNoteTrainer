@@ -1,183 +1,8 @@
 from random import randint
 import os
+import fretboard_interpreter
 
-# this function converts the Note to a Number, increments it and returns the correct note
-def get_correct_guitar_note(starting_note, increment):
-    int_note = convert_note_to_number(starting_note)
-    # DEBUG:
-    #print("note: {} --> Number {}".format(starting_note,int_note))
-    act_increment = increment % 12
-    # DEBUG:
-    #print("act_increment: {}".format(act_increment))
-    int_note += act_increment
-    int_note = int_note % 12
-
-    ending_note = convert_number_to_note(int_note)
-    # DEBUG:
-    #print("int_note: {} --> note: {}".format(int_note,ending_note))
-
-    return ending_note;
-
-# Guitar Notes
-# A
-# A# / Bm
-# B
-# C
-# C# / Dm
-# D
-# D# / Em
-# E
-# F
-# F# / Gm
-# G
-# G# / Am
-
-# Italian / International Notes?
-# Do=C Re=D Mi=E Fa=F So=G La=A Ti=B
-
-# Convert a text (note) to a number
-def convert_note_to_number(note):
-    return {
-        "A": 0,
-        "A#": 1,
-        "BB": 1,
-        "B": 2,
-        "B#": 3,
-        "C": 3,
-        "C#": 4,
-        "DB": 4,
-        "D": 5,
-        "D#": 6,
-        "EB": 6,
-        "E": 7,
-        "E#": 8,
-        "F": 8,
-        "F#": 9,
-        "GB": 9,
-        "G": 10,
-        "G#": 11,
-        "AB": 11,
-    }.get(note, -1)
-
-# Convert an integer to a text (note)
-def convert_number_to_note(int_note):
-    return {
-        0 : "A",
-        1 : "A# / Bb",
-        2 : "B",
-        3 : "C",
-        4 : "C# / Db",
-        5 : "D",
-        6 : "D# / Eb",
-        7 : "E",
-        8 : "F",
-        9 : "F# / Gb",
-        10: "G",
-        11: "G# / Ab",
-    }.get(int_note, "Invalid Note")
-
-# Get the Guitar String Name from an integer
-def get_guitar_note_from_int(string_no):
-    return {
-        6: "E",
-        5: "A",
-        4: "D",
-        3: "G",
-        2: "B",
-        1: "e",
-    }.get(string_no, "Invalid String No.")
-
-def draw_fretboard(string_no, fret_no):
-    # Creates a list containing 5 lists, each of 8 items, all set to 0
-    strings, frets = 6, 13;
-    str_pos = [["-".center(7,"-") for x in range(frets)] for y in range(strings)]
-    str_pos[string_no - 1][fret_no] = "X".center(7,"-")
-
-    # E
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(1),
-    #str_pos[0][0],
-    str_pos[0][1],str_pos[0][2],str_pos[0][3],str_pos[0][4],str_pos[0][5],str_pos[0][6],str_pos[0][7],str_pos[0][8],str_pos[0][9],str_pos[0][10],str_pos[0][11],str_pos[0][12]
-    ))
-    # A
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(2),
-    #str_pos[1][0],
-    str_pos[1][1],str_pos[1][2],str_pos[1][3],str_pos[1][4],str_pos[1][5],str_pos[1][6],str_pos[1][7],str_pos[1][8],str_pos[1][9],str_pos[1][10],str_pos[1][11],str_pos[1][12]
-    ))
-    # D
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(3),
-    #str_pos[2][0],
-    str_pos[2][1],str_pos[2][2],str_pos[2][3],str_pos[2][4],str_pos[2][5],str_pos[2][6],str_pos[2][7],str_pos[2][8],str_pos[2][9],str_pos[2][10],str_pos[2][11],str_pos[2][12]
-    ))
-    # G
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(4),
-    #str_pos[3][0],
-    str_pos[3][1],str_pos[3][2],str_pos[3][3],str_pos[3][4],str_pos[3][5],str_pos[3][6],str_pos[3][7],str_pos[3][8],str_pos[3][9],str_pos[3][10],str_pos[3][11],str_pos[3][12]
-    ))
-    # B
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(5),
-    #str_pos[4][0],
-    str_pos[4][1],str_pos[4][2],str_pos[4][3],str_pos[4][4],str_pos[4][5],str_pos[4][6],str_pos[4][7],str_pos[4][8],str_pos[4][9],str_pos[4][10],str_pos[4][11],str_pos[4][12]
-    ))
-    # E
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(6),
-    #str_pos[5][0],
-    str_pos[5][1],str_pos[5][2],str_pos[5][3],str_pos[5][4],str_pos[5][5],str_pos[5][6],str_pos[5][7],str_pos[5][8],str_pos[5][9],str_pos[5][10],str_pos[5][11],str_pos[5][12]
-    ))
-    # print the help bullets of the guitar
-    print("                       o               o               o               o                      o o   ")
-
-def draw_fretboard_with_notes():
-    # Creates a list containing 5 lists, each of 8 items, all set to 0
-    strings, frets = 6, 13;
-    str_pos = [["-" for x in range(frets)] for y in range(strings)]
-    for i in range(strings):
-        for j in range(frets):
-            str_pos[i][j] = get_correct_guitar_note(get_guitar_note_from_int(i+1).upper(),j).center(7," ")
-    # E
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(1),
-    #str_pos[0][0],
-    str_pos[0][1],str_pos[0][2],str_pos[0][3],str_pos[0][4],str_pos[0][5],str_pos[0][6],str_pos[0][7],str_pos[0][8],str_pos[0][9],str_pos[0][10],str_pos[0][11],str_pos[0][12]
-    ))
-    # A
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(2),
-    #str_pos[1][0],
-    str_pos[1][1],str_pos[1][2],str_pos[1][3],str_pos[1][4],str_pos[1][5],str_pos[1][6],str_pos[1][7],str_pos[1][8],str_pos[1][9],str_pos[1][10],str_pos[1][11],str_pos[1][12]
-    ))
-    # D
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(3),
-    #str_pos[2][0],
-    str_pos[2][1],str_pos[2][2],str_pos[2][3],str_pos[2][4],str_pos[2][5],str_pos[2][6],str_pos[2][7],str_pos[2][8],str_pos[2][9],str_pos[2][10],str_pos[2][11],str_pos[2][12]
-    ))
-    # G
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(4),
-    #str_pos[3][0],
-    str_pos[3][1],str_pos[3][2],str_pos[3][3],str_pos[3][4],str_pos[3][5],str_pos[3][6],str_pos[3][7],str_pos[3][8],str_pos[3][9],str_pos[3][10],str_pos[3][11],str_pos[3][12]
-    ))
-    # B
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(5),
-    #str_pos[4][0],
-    str_pos[4][1],str_pos[4][2],str_pos[4][3],str_pos[4][4],str_pos[4][5],str_pos[4][6],str_pos[4][7],str_pos[4][8],str_pos[4][9],str_pos[4][10],str_pos[4][11],str_pos[4][12]
-    ))
-    # E
-    print("{}  |{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|".format(
-    get_guitar_note_from_int(6),
-    #str_pos[5][0],
-    str_pos[5][1],str_pos[5][2],str_pos[5][3],str_pos[5][4],str_pos[5][5],str_pos[5][6],str_pos[5][7],str_pos[5][8],str_pos[5][9],str_pos[5][10],str_pos[5][11],str_pos[5][12]
-    ))
-    # print the help bullets of the guitar
-    print("                       o               o               o               o                      o o   ")
-
+# Main function
 trainer_active = True
 while (trainer_active):
     print("Welcome to the Python Guitar Note Trainer.")
@@ -190,7 +15,11 @@ while (trainer_active):
 
     if (guitar_fret == 0):
         print("Please try to convert the following constellation: Guitar String: {}, Guitar Fret: {}".format(guitar_string, guitar_fret))
-    draw_fretboard(guitar_string,guitar_fret)
+
+    position_array = fretboard_interpreter.create_single_position_array(guitar_string, guitar_fret)
+    fretboard_interpreter.draw_fretboard(position_array, True)
+    fretboard_interpreter.draw_guitar_dots()
+
     print("")
     user_guess = input("What do you think this Note is (or type a command): ")
     verify_note = True
@@ -200,14 +29,17 @@ while (trainer_active):
     elif (user_guess.upper() == "H") or (user_guess.upper() == "HELP"):
         verify_note = False
         print("These are all the notes")
-        draw_fretboard_with_notes()
+        #draw_fretboard_with_notes()
+        position_array = fretboard_interpreter.create_help_position_array()
+        fretboard_interpreter.draw_fretboard(position_array, False)
+        fretboard_interpreter.draw_guitar_dots()
 
     if trainer_active:
         if verify_note:
-            starting_note = get_guitar_note_from_int(guitar_string).upper()
+            starting_note = fretboard_interpreter.get_guitar_note_from_int(guitar_string).upper()
             # DEBUG:
             #print("starting_note: {}".format(starting_note))
-            correct_guess = get_correct_guitar_note(starting_note,guitar_fret)
+            correct_guess = fretboard_interpreter.get_correct_guitar_note(starting_note,guitar_fret)
             # DEBUG:
             #print("correct_guess: {}".format(correct_guess))
             correct_guess = correct_guess[:2]
@@ -215,10 +47,13 @@ while (trainer_active):
             # DEBUG:
             #print("user_guess: {} {}".format(user_guess.upper(),convert_note_to_number(user_guess.upper())))
             #print("correct_guess: {} {}".format(correct_guess.upper(),convert_note_to_number(correct_guess.upper())))
-            if (convert_note_to_number(user_guess.upper()) == convert_note_to_number(correct_guess.upper())):
+            if (fretboard_interpreter.convert_note_to_number(user_guess.upper()) == fretboard_interpreter.convert_note_to_number(correct_guess.upper())):
                 print("Correct!")
             else:
                 print("Wrong! The correct answer was: {}".format(correct_guess))
 
         input() #Avoid clearing screen immediately
-        os.system("cls")
+        if os.name == "nt":
+            os.system("cls")
+        else:
+            os.system("clear")
