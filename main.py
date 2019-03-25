@@ -1,8 +1,48 @@
 from random import randint
+from pathlib import Path
 import os
+import shutil
 import fretboard_interpreter
 
+def load_settings():
+    global note_locale
+    global string_names_enabled
+    settings_file_path = "{}/settings.ini".format(Path(__file__).parent)
+    with open(settings_file_path, "r", encoding="utf8") as settings_file:
+        for line in settings_file:
+            settings_array = line[:-1].replace(" ","").split("=")
+            if settings_array[0] == "NOTE_LOCALE":
+                #TODO: Handle different Note names
+                note_locale = settings_array[1]
+            elif settings_array[0] == "SHOW_STRING_NAME":
+                string_names_enabled = settings_array[1] == "True"
+
+def write_setting(setting_name, setting_value):
+    global note_locale
+    global string_names_enabled
+    settings_file_path = "{}/settings.ini".format(Path(__file__).parent)
+    settings_file_old_path = settings_file_path + "~"
+    shutil.move(settings_file_path, settings_file_old_path)
+
+    with open(settings_file_old_path, "r", encoding="utf8") as settings_file_old:
+        settings_file = open(settings_file_path, "w", encoding="utf8")
+        for line in settings_file_old:
+            settings_array = line[:-1].replace(" ","").split("=")
+            if settings_array[0] == setting_name:
+                settings_file.write("{}={}\n".format(
+                        settings_array[0], setting_value)
+                    )
+            else:
+                settings_file.write(line)
+        settings_file.close()
+        settings_file_old.close()
+
+    print("Settings saved.")
+
 # Main function
+# Load settings from file:
+load_settings()
+
 trainer_active = True
 while trainer_active:
     print("Welcome to the Python Guitar Note Trainer.")
@@ -18,7 +58,7 @@ while trainer_active:
 
     # Print the fretboard with the note to guess
     position_array = fretboard_interpreter.create_single_position_array(guitar_string, guitar_fret)
-    fretboard_interpreter.draw_fretboard(position_array, True, (guitar_fret != 0))
+    fretboard_interpreter.draw_fretboard(position_array, True, ((guitar_fret != 0) and (string_names_enabled)))
     fretboard_interpreter.draw_guitar_dots()
 
     print("")
@@ -40,6 +80,14 @@ while trainer_active:
         print("This was the correct answer:")
         fretboard_interpreter.draw_fretboard(position_array, False, True)
         fretboard_interpreter.draw_guitar_dots()
+
+    elif (user_guess == "DSN") or (user_guess == "DISABLESN"):
+        string_names_enabled = False
+        write_setting("SHOW_STRING_NAME", string_names_enabled)
+
+    elif (user_guess == "ESN") or (user_guess == "ENABLESN"):
+        string_names_enabled = True
+        write_setting("SHOW_STRING_NAME", string_names_enabled)
 
     else:
         # No command was selected, we can compare the input
