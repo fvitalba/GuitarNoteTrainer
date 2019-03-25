@@ -20,7 +20,7 @@ import guitar_constant
 # This function converts the Note to a Number, increments it and returns the correct note
 def get_correct_guitar_note(starting_note, increment):
     int_note = convert_note_to_number(starting_note)
-    
+
     act_increment = increment % 12
     int_note += act_increment
     int_note = int_note % 12
@@ -96,8 +96,8 @@ def draw_fretboard(position_array, hidden, show_string_name):
                     guitar_string += guitar_constant.FINGER_CHARACTER.center(guitar_constant.FRETSPACE, guitar_constant.FILLER_CHARACTER)
                 else:
                     guitar_string += get_correct_guitar_note(
-                            get_guitar_note_from_int(si + 1),fi
-                        ).center(guitar_constant.FRETSPACE," ")
+                            get_guitar_note_from_int(si + 1), fi
+                        ).center(guitar_constant.FRETSPACE, " ")
             else:
                 guitar_string += guitar_constant.FILLER_CHARACTER.center(guitar_constant.FRETSPACE, guitar_constant.FILLER_CHARACTER)
             guitar_string += guitar_constant.FRETBOARD_SEPERATOR

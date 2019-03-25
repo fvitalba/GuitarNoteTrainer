@@ -27,7 +27,7 @@ def write_setting(setting_name, setting_value):
     with open(settings_file_old_path, "r", encoding="utf8") as settings_file_old:
         settings_file = open(settings_file_path, "w", encoding="utf8")
         for line in settings_file_old:
-            settings_array = line[:-1].replace(" ","").split("=")
+            settings_array = line[:-1].replace(" ", "").split("=")
             if settings_array[0] == setting_name:
                 settings_file.write("{}={}\n".format(
                         settings_array[0], setting_value)
